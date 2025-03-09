@@ -1476,9 +1476,19 @@ textarea.input {
 	Product details
 \*----------------------------*/
 
+.product-details {
+  padding: 40px; /* Increase padding */
+  background: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+  margin-left: 150px; /* Adjust margin as needed */
+  width: calc(100% - 50px); /* Adjust width to make the box bigger */
+}
+
 .product-details .product-name {
-  text-transform: uppercase;
-  font-size: 18px;
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 20px;
 }
 
 .product-details .product-rating {
