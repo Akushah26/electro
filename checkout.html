@@ -288,7 +288,7 @@
 								I've read and accept the <a href="#">terms & conditions</a>
 							</label>
 						</div>
-						<a href="#" class="primary-btn order-submit">Place order</a>
+						<a href="#" class="primary-btn order-submit" id="place-order-btn">Place order</a>
 					</div>
 					<!-- /Order Details -->
 				</div>
@@ -373,6 +373,64 @@
 			});
 	
 			orderTotalContainer.innerText = `₹${orderTotal}`;
+
+			document.getElementById('place-order-btn').addEventListener('click', function(event) {
+				event.preventDefault();
+				const billingFields = document.querySelectorAll('.billing-details .input');
+				const shippingCheckbox = document.getElementById('shiping-address');
+				const shippingFields = document.querySelectorAll('.shiping-details .input');
+				const paymentMethods = document.querySelectorAll('input[name="payment"]');
+				const termsCheckbox = document.getElementById('terms');
+
+				let isValid = true;
+
+				billingFields.forEach(field => {
+					if (!field.value) {
+						isValid = false;
+						field.classList.add('input-error');
+					} else {
+						field.classList.remove('input-error');
+					}
+				});
+
+				if (!isValid) {
+					alert('Please fill in all billing address fields.');
+					return;
+				}
+
+				if (shippingCheckbox.checked) {
+					shippingFields.forEach(field => {
+						if (!field.value) {
+							isValid = false;
+							field.classList.add('input-error');
+						} else {
+							field.classList.remove('input-error');
+						}
+					});
+				}
+
+				let paymentSelected = false;
+				paymentMethods.forEach(method => {
+					if (method.checked) {
+						paymentSelected = true;
+					}
+				});
+
+				if (!paymentSelected) {
+					isValid = false;
+					alert('Please select a payment method.');
+				}
+
+				if (!termsCheckbox.checked) {
+					isValid = false;
+					alert('Please accept the terms and conditions.');
+				}
+
+				if (isValid) {
+					localStorage.removeItem('cart');
+					window.location.href = 'confirmationpage.html';
+				}
+			});
 		});
 	</script>
 </html>
