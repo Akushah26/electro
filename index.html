@@ -64,11 +64,15 @@
                     <div class="col-md-6">
                         <div class="header-search">
                             <form>
-                                <select class="input-select">
-                                    <option value="0">All Categories</option>
-                                    <option value="1">Category 01</option>
-                                    <option value="2">Category 02</option>
-                                </select>
+                                <!-- filepath: /Users/shailshah/Desktop/Aage/electro/index.html -->
+								<select class="input-select" id="category-select">
+									<option value="all">All Categories</option>
+									<option value="samsung">Samsung</option>
+									<option value="iphone">IPhone</option>
+									<option value="iqoo">iQOO</option>
+									<option value="vivo">Vivo</option>
+									<option value="realme">Realme</option>
+								</select>
                                 <input class="input" placeholder="Search here">
                                 <button class="search-btn">Search</button>
                             </form>
@@ -127,9 +131,57 @@
     <!-- /HEADER -->
 
     <!-- SECTION -->
+	 <!-- Add this section before the product display section -->
+<!-- <div class="section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <h3 class="title">Brand</h3>
+                <div class="checkbox-filter">
+                    <label>
+                        <input type="checkbox" class="brand-filter" value="SAMSUNG" checked>
+                        Samsung (5)
+                    </label>
+                    <label>
+                        <input type="checkbox" class="brand-filter" value="IPHONE" checked>
+                        IPhone (5)
+                    </label>
+                    <label>
+                        <input type="checkbox" class="brand-filter" value="IQOO" checked>
+                        iQOO (5)
+                    </label>
+                    <label>
+                        <input type="checkbox" class="brand-filter" value="VIVO" checked>
+                        Vivo (5)
+                    </label>
+                    <label>
+                        <input type="checkbox" class="brand-filter" value="REALME" checked>
+                        Realme (5)
+                    </label>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <!-- Existing product display section -->
+            </div>
+        </div>
+    </div>
+</div> -->
+
+
+
     <div class="section">
         <div class="container">
             <div class="row">
+				<!-- section title -->
+				<div class="col-md-12" id="realme">
+					<div class="section-title">
+						<h3 class="title">REALME</h3>
+						<div class="section-nav">
+							
+						</div>
+					</div>
+				</div>
+				<!-- /section title -->
                 <!-- Products tab & slick -->
                 <div class="col-md-12">
                     <div class="row">
@@ -243,9 +295,9 @@
         <div class="row">
 
             <!-- section title -->
-            <div class="col-md-12">
+            <div class="col-md-12" id="samsung">
                 <div class="section-title">
-                    <h3 class="title">Top selling</h3>
+                    <h3 class="title">Samsung</h3>
                     <div class="section-nav">
                         
                     </div>
@@ -364,9 +416,9 @@
         <!-- row -->
         <div class="row">
             <!-- section title -->
-            <div class="col-md-12">
+            <div class="col-md-12" id="iphone">
                 <div class="section-title">
-                    <h3 class="title">Top Selling</h3>
+                    <h3 class="title">IPhones</h3>
                     <div class="section-nav">
                     </div>
                 </div>
@@ -473,9 +525,9 @@
         <!-- row -->
         <div class="row">
             <!-- section title -->
-            <div class="col-md-12">
+            <div class="col-md-12" id="iqoo">
                 <div class="section-title">
-                    <h3 class="title">Top selling</h3>
+                    <h3 class="title">IQOO</h3>
                     <div class="section-nav">
                     </div>
                 </div>
@@ -583,9 +635,9 @@
         <!-- row -->
         <div class="row">
             <!-- section title -->
-            <div class="col-md-12">
+            <div class="col-md-12" id="vivo">
                 <div class="section-title">
-                    <h3 class="title">Top selling</h3>
+                    <h3 class="title">Vivo</h3>
                     <div class="section-nav">
                     </div>
                 </div>
@@ -742,7 +794,7 @@
     <script src="js/jquery.zoom.min.js"></script>
     <script src="js/main.js"></script>
 
-    <script>
+ 	<script>
 		let cart = JSON.parse(localStorage.getItem('cart')) || [];
 		let cartItemCount = 0;
 		let cartSubtotal = 0;
@@ -818,7 +870,87 @@
 		// Add this function to load cart data when the page loads
 		document.addEventListener('DOMContentLoaded', function() {
 			updateCart(); // Update the cart when the page loads
+			filterProducts(); // Filter products based on selected brands and categories
 		});
+	
+		// Add event listener to the brand checkboxes
+		document.querySelectorAll('.brand-filter').forEach(checkbox => {
+			checkbox.addEventListener('change', filterProducts);
+		});
+	
+		// Add event listener to the search input field
+		document.querySelector('.header-search input').addEventListener('input', function() {
+			filterProducts();
+			setTimeout(stopAnimation, 100); // Delay stopping the animation to ensure search results are shown
+		});
+	
+		// Add event listener to the category dropdown
+		document.getElementById('category-select').addEventListener('change', function() {
+			const selectedCategory = this.value;
+			
+			// Get all category values
+			const categories = Array.from(document.querySelectorAll('#category-select option')).map(option => option.value);
+		
+			// Hide or show sections based on selected category
+			categories.forEach(category => {
+				const section = document.getElementById(category);
+				if (section) {
+					if (category === selectedCategory || selectedCategory === 'all') {
+						section.style.display = 'block';
+					} else {
+						section.style.display = 'none';
+					}
+				}
+			});
+		
+			filterProducts();
+		});
+	
+		function filterProducts() {
+			const selectedBrands = Array.from(document.querySelectorAll('.brand-filter:checked')).map(checkbox => checkbox.value.toLowerCase());
+			const searchQuery = document.querySelector('.header-search input').value.toLowerCase();
+			const selectedCategory = document.getElementById('category-select').value.toLowerCase();
+	
+			document.querySelectorAll('.product').forEach(product => {
+				const productName = product.querySelector('.product-name a').innerText.toLowerCase();
+				const productBrand = productName.split(' ')[0].toLowerCase(); // Assuming the brand is the first word in the product name
+				const matchesBrand = selectedBrands.length === 0 || selectedBrands.includes(productBrand);
+				const matchesSearch = productName.includes(searchQuery);
+				const matchesCategory = selectedCategory === 'all' || productBrand === selectedCategory;
+	
+				if (matchesBrand && matchesSearch && matchesCategory) {
+					product.style.display = 'block';
+				} else {
+					product.style.display = 'none';
+				}
+			});
+	
+			// Hide or show section titles based on selected brands, search query, and category
+			document.querySelectorAll('.section').forEach(section => {
+				const sectionTitle = section.querySelector('.section-title .title');
+				if (sectionTitle) {
+					const sectionBrand = sectionTitle.innerText.toLowerCase();
+					const sectionProducts = section.querySelectorAll('.product');
+					let hasVisibleProducts = false;
+					sectionProducts.forEach(product => {
+						if (product.style.display === 'block') {
+							hasVisibleProducts = true;
+						}
+					});
+					if (selectedBrands.length === 0 || hasVisibleProducts) {
+						section.style.display = 'block';
+					} else {
+						section.style.display = 'none';
+					}
+				}
+			});
+		}
+	
+		function stopAnimation() {
+			document.querySelectorAll('.products-slick').forEach(slick => {
+				$(slick).slick('slickPause'); // Pause the slick animation
+			});
+		}
 	</script>
 </body>
 </html>
