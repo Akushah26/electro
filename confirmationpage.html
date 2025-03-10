@@ -51,7 +51,18 @@
         <h1>Order Confirmed!</h1>
         <p>Your order has been placed successfully.</p>
         <p>It will be delivered in 3 to 5 business days.</p>
+        <p>Order ID: <span id="order-id"></span></p>
+        <p>Payment ID: <span id="payment-id"></span></p>
         <a href="index.html" class="home-button">Go to Home Page</a>
     </div>
+
+    <script>
+        function generateID(prefix) {
+            return prefix + '-' + Math.random().toString(36).substr(2, 9).toUpperCase();
+        }
+
+        document.getElementById('order-id').textContent = generateID('ORD');
+        document.getElementById('payment-id').textContent = generateID('PAY');
+    </script>
 </body>
 </html>
