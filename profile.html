@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css"/>
+    <link type="text/css" rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+    <div class="container">
+        <h2 class="text-center mt-5">Profile Details</h2>
+        <form id="profile-form" class="mt-4">
+            <div class="form-group">
+                <label for="email">Enter your Email ID:</label>
+                <input type="email" id="email" class="form-control" placeholder="Enter your email" required>
+            </div>
+            <button type="button" class="btn btn-primary" onclick="fetchProfileDetails()">Get Details</button>
+        </form>
+        <div id="profile-details" class="mt-4" style="display: none;">
+            <h3>Your Details:</h3>
+            <p><strong>Name:</strong> <span id="name"></span></p>
+            <p><strong>Address:</strong> <span id="address"></span></p>
+            <p><strong>Contact:</strong> <span id="contact"></span></p>
+            <p><strong>Previous Orders:</strong> <span id="orders"></span></p>
+        </div>
+    </div>
+
+    <script>
+        function fetchProfileDetails() {
+            const email = document.getElementById('email').value;
+
+            // Simulate fetching data (replace this with actual API or database call)
+            const mockData = {
+                "user@example.com": {
+                    name: "John Doe",
+                    address: "123 Main Street, City, Country",
+                    contact: "+91 9876543210",
+                    orders: "Order123, Order456, Order789"
+                }
+            };
+
+            const userDetails = mockData[email];
+            if (userDetails) {
+                document.getElementById('name').textContent = userDetails.name;
+                document.getElementById('address').textContent = userDetails.address;
+                document.getElementById('contact').textContent = userDetails.contact;
+                document.getElementById('orders').textContent = userDetails.orders;
+                document.getElementById('profile-details').style.display = 'block';
+            } else {
+                alert("No details found for the entered email ID.");
+                document.getElementById('profile-details').style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>

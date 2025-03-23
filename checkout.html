@@ -363,64 +363,92 @@
 			});
 	
 			orderTotalContainer.innerText = `₹${orderTotal}`;
-
 			document.getElementById('place-order-btn').addEventListener('click', function(event) {
-				event.preventDefault();
-				const billingFields = document.querySelectorAll('.billing-details .input');
-				const shippingCheckbox = document.getElementById('shiping-address');
-				const shippingFields = document.querySelectorAll('.shiping-details .input');
-				const paymentMethods = document.querySelectorAll('input[name="payment"]');
-				const termsCheckbox = document.getElementById('terms');
+    event.preventDefault();
 
-				let isValid = true;
+    const billingFields = document.querySelectorAll('.billing-details .input');
+    const shippingCheckbox = document.getElementById('shiping-address');
+    const shippingFields = document.querySelectorAll('.shiping-details .input');
+    const paymentMethods = document.querySelectorAll('input[name="payment"]');
+    const termsCheckbox = document.getElementById('terms');
 
-				billingFields.forEach(field => {
-					if (!field.value) {
-						isValid = false;
-						field.classList.add('input-error');
-					} else {
-						field.classList.remove('input-error');
-					}
-				});
+    let isValid = true;
 
-				if (!isValid) {
-					alert('Please fill in all billing address fields.');
-					return;
-				}
+    const billingDetails = {};
+    billingFields.forEach(field => {
+        if (!field.value) {
+            isValid = false;
+            field.classList.add('input-error');
+        } else {
+            field.classList.remove('input-error');
+            billingDetails[field.name] = field.value;
+        }
+    });
 
-				if (shippingCheckbox.checked) {
-					shippingFields.forEach(field => {
-						if (!field.value) {
-							isValid = false;
-							field.classList.add('input-error');
-						} else {
-							field.classList.remove('input-error');
-						}
-					});
-				}
+    const shippingDetails = {};
+    if (shippingCheckbox.checked) {
+        shippingFields.forEach(field => {
+            if (!field.value) {
+                isValid = false;
+                field.classList.add('input-error');
+            } else {
+                field.classList.remove('input-error');
+                shippingDetails[field.name] = field.value;
+            }
+        });
+    }
 
-				let paymentSelected = false;
-				paymentMethods.forEach(method => {
-					if (method.checked) {
-						paymentSelected = true;
-					}
-				});
+    let paymentMethod = null;
+    paymentMethods.forEach(method => {
+        if (method.checked) {
+            paymentMethod = method.id;
+        }
+    });
 
-				if (!paymentSelected) {
-					isValid = false;
-					alert('Please select a payment method.');
-				}
+    if (!paymentMethod) {
+        isValid = false;
+        alert('Please select a payment method.');
+    }
 
-				if (!termsCheckbox.checked) {
-					isValid = false;
-					alert('Please accept the terms and conditions.');
-				}
+    if (!termsCheckbox.checked) {
+        isValid = false;
+        alert('Please accept the terms and conditions.');
+    }
 
-				if (isValid) {
-					localStorage.removeItem('cart');
-					window.location.href = 'confirmationpage.html';
-				}
-			});
+    if (isValid) {
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+        const orderDetails = {
+            billingDetails,
+            shippingDetails: shippingCheckbox.checked ? shippingDetails : billingDetails,
+            paymentMethod,
+            cart,
+            orderDate: new Date().toISOString(),
+        };
+
+        // Send the order details to the backend
+        fetch('http://localhost:3000/save-order', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(orderDetails),
+        })
+            .then(response => {
+                if (response.ok) {
+                    alert('Order placed successfully!');
+                    localStorage.removeItem('cart');
+                    window.location.href = 'confirmationpage.html';
+                } else {
+                    alert('Failed to place order. Please try again.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Failed to place order. Please try again.');
+            });
+    }
+});
 		});
+			
 	</script>
 </html>

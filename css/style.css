@@ -2243,3 +2243,12 @@ textarea.input {
   text-decoration: none;
   cursor: pointer;
 }
+.dropdown-menu li a {
+  color: black !important; /* Set text color to black */
+  font-weight: bold; /* Optional: Make the text bold */
+}
+
+.dropdown-menu li a:hover {
+  background-color: #f0f0f0; /* Optional: Add a hover effect */
+  color: black !important; /* Ensure hover text remains black */
+}
