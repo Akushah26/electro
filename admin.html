@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <style>
+        /* General styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            background-color: #007bff;
+            color: white;
+            padding: 20px 0;
+            margin: 0;
+        }
+
+        h2 {
+            color: #007bff;
+            margin-bottom: 10px;
+        }
+
+        div {
+            margin: 20px auto;
+            padding: 20px;
+            max-width: 600px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #phoneResults, #allResults {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        #phoneResults h3, #allResults h3 {
+            margin-top: 0;
+        }
+
+        p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Admin Panel</h1>
+    
+    <div>
+        <h2>Option 1: Search by Phone</h2>
+        <label for="phone">Select a Phone:</label>
+        <select id="phone">
+            <!-- Dynamically populated -->
+        </select>
+        <button id="searchPhone">Search</button>
+        <div id="phoneResults"></div>
+    </div>
+
+    <div>
+        <h2>Option 2: Show All Users and Items</h2>
+        <button id="showAll">Show All</button>
+        <div id="allResults"></div>
+    </div>
+
+    <script>
+        // Populate phone dropdown dynamically from local storage
+        document.addEventListener('DOMContentLoaded', () => {
+            const phoneDropdown = document.getElementById('phone');
+            const phones = JSON.parse(localStorage.getItem('phones')) || []; // Fetch phones from local storage
+
+            if (phones.length === 0) {
+                phoneDropdown.innerHTML = '<option>No phones available</option>';
+            } else {
+                phones.forEach(phone => {
+                    const option = document.createElement('option');
+                    option.value = phone;
+                    option.textContent = phone;
+                    phoneDropdown.appendChild(option);
+                });
+            }
+        });
+
+        // Add your existing search and show all logic here
+    </script>
+</body>
+</html>
