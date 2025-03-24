@@ -79,32 +79,76 @@
         p {
             margin: 5px 0;
         }
+
+        .back-button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 16px;
+            text-align: center;
+        }
+
+        .back-button:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 <body>
     <h1>Admin Panel</h1>
     
-    <div>
-        <h2>Option 1: Search by Phone</h2>
-        <label for="phone">Select a Phone:</label>
-        <select id="phone">
-            <!-- Dynamically populated -->
-        </select>
-        <button id="searchPhone">Search</button>
-        <div id="phoneResults"></div>
+    <div id="adminContent" style="display: none;">
+        <div>
+            <h2>Option 1: Search by Phone</h2>
+            <label for="phone">Select a Phone:</label>
+            <select id="phone">
+                <!-- Dynamically populated -->
+            </select>
+            <button id="searchPhone">Search</button>
+            <div id="phoneResults"></div>
+        </div>
+
+        <div>
+            <h2>Option 2: Show All Users and Items</h2>
+            <button id="showAll">Show All</button>
+            <div id="allResults"></div>
+        </div>
     </div>
 
-    <div>
-        <h2>Option 2: Show All Users and Items</h2>
-        <button id="showAll">Show All</button>
-        <div id="allResults"></div>
+    <div id="accessDenied" style="display: none; text-align: center; margin-top: 50px;">
+        <h2>Access Denied</h2>
+        <p>You do not have permission to access this page.</p>
     </div>
+
+    <!-- Back to Home Button -->
+    <a href="index.html" class="back-button">Back to Home</a>
 
     <script>
-        // Populate phone dropdown dynamically from local storage
         document.addEventListener('DOMContentLoaded', () => {
+            // Simulate user authentication (replace this with actual authentication logic)
+            const userEmail = prompt("Enter your email to access the admin panel:");
+
+            if (userEmail === "admin@admin.com") {
+                document.getElementById('adminContent').style.display = 'block';
+            } else {
+                document.getElementById('accessDenied').style.display = 'block';
+            }
+
+            // Populate phone dropdown dynamically
             const phoneDropdown = document.getElementById('phone');
-            const phones = JSON.parse(localStorage.getItem('phones')) || []; // Fetch phones from local storage
+            const phones = [
+                "iPhone 13",
+                "Samsung Galaxy S21",
+                "Google Pixel 6",
+                "OnePlus 9",
+                "Xiaomi Mi 11",
+                "Sony Xperia 5",
+                "Huawei P40",
+                "Nokia X20"
+            ]; // Example phone names
 
             if (phones.length === 0) {
                 phoneDropdown.innerHTML = '<option>No phones available</option>';
