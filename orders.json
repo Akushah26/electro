@@ -1,0 +1,76 @@
+[
+  {
+    "billingDetails": {
+      "first-name": "Shail",
+      "last-name": "Shah",
+      "email": "sshah38@ncsu.edu",
+      "address": "1611 Collegeview ave",
+      "city": "Raleigh",
+      "country": "United States",
+      "zip-code": "27606",
+      "tel": "6786879032"
+    },
+    "shippingDetails": {
+      "first-name": "Shail",
+      "last-name": "Shah",
+      "email": "sshah38@ncsu.edu",
+      "address": "1611 Collegeview ave",
+      "city": "Raleigh",
+      "country": "United States",
+      "zip-code": "27606",
+      "tel": "6786879032"
+    },
+    "paymentMethod": "payment-3",
+    "orderNotes": null,
+    "cart": [
+      {
+        "name": "Realme 14 Pro+",
+        "qty": 1,
+        "price": 24500,
+        "image": "img/Realme/realme 14 pro+.png"
+      },
+      {
+        "name": "Samsung Galaxy S23 FE",
+        "qty": 1,
+        "price": 60000,
+        "image": "img/Samsung/SAMSUNG S23 FE.avif"
+      }
+    ],
+    "totalBill": 84500,
+    "orderDate": "2025-03-24T20:18:32.988Z"
+  },
+  {
+    "billingDetails": {
+      "first-name": "Shail",
+      "last-name": "Shah",
+      "email": "sshah38@ncsu.edu",
+      "address": "1611 Collegeview ave",
+      "city": "Raleigh",
+      "country": "United States",
+      "zip-code": "27606",
+      "tel": "6786879032"
+    },
+    "shippingDetails": {
+      "first-name": "Shail",
+      "last-name": "Shah",
+      "email": "sshah38@ncsu.edu",
+      "address": "1611 Collegeview ave",
+      "city": "Raleigh",
+      "country": "United States",
+      "zip-code": "27606",
+      "tel": "6786879032"
+    },
+    "paymentMethod": "payment-3",
+    "orderNotes": null,
+    "cart": [
+      {
+        "name": "Iphone 16 Pro",
+        "qty": 3,
+        "price": 110000,
+        "image": "img/Iphone/IPHONE 16 PRO.jpg"
+      }
+    ],
+    "totalBill": 330000,
+    "orderDate": "2025-03-24T20:19:07.281Z"
+  }
+]

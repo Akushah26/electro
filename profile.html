@@ -22,7 +22,31 @@
         .back-button:hover {
             background-color: #0056b3;
         }
+
+        .card {
+            margin-top: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-body img {
+            max-width: 100px;
+            margin-right: 10px;
+            border-radius: 4px;
+        }
+
+        .order-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .order-item span {
+            margin-left: 10px;
+        }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 <body>
     <div class="container">
@@ -35,11 +59,7 @@
             <button type="button" class="btn btn-primary" onclick="fetchProfileDetails()">Get Details</button>
         </form>
         <div id="profile-details" class="mt-4" style="display: none;">
-            <h3>Your Details:</h3>
-            <p><strong>Name:</strong> <span id="name"></span></p>
-            <p><strong>Address:</strong> <span id="address"></span></p>
-            <p><strong>Contact:</strong> <span id="contact"></span></p>
-            <p><strong>Previous Orders:</strong> <span id="orders"></span></p>
+            <h3 class="text-center">Your Details:</h3>
         </div>
 
         <!-- Back to Home Button -->
@@ -47,30 +67,83 @@
     </div>
 
     <script>
-        function fetchProfileDetails() {
+        // Fetch profile details from the server
+        async function fetchProfileDetails() {
             const email = document.getElementById('email').value;
 
-            // Simulate fetching data (replace this with actual API or database call)
-            const mockData = {
-                "user@example.com": {
-                    name: "John Doe",
-                    address: "123 Main Street, City, Country",
-                    contact: "+91 9876543210",
-                    orders: "Order123, Order456, Order789"
-                }
-            };
+            if (!validateEmail(email)) {
+                alert("Please enter a valid email address.");
+                return;
+            }
 
-            const userDetails = mockData[email];
-            if (userDetails) {
-                document.getElementById('name').textContent = userDetails.name;
-                document.getElementById('address').textContent = userDetails.address;
-                document.getElementById('contact').textContent = userDetails.contact;
-                document.getElementById('orders').textContent = userDetails.orders;
-                document.getElementById('profile-details').style.display = 'block';
+            // Redirect to admin.html if the email is admin@admin.com
+            if (email === "admin@admin.com") {
+                window.location.href = "admin.html";
+                return;
+            }
+
+            try {
+                const response = await axios.get('orders.json');
+                const orders = response.data;
+
+                const userDetailsList = orders.filter(order => order.billingDetails.email === email);
+                displayProfileDetails(userDetailsList);
+            } catch (error) {
+                console.error("Error fetching profile details:", error);
+                alert("An error occurred while fetching profile details. Please try again later.");
+            }
+        }
+
+        // Display profile details on the page
+        function displayProfileDetails(userDetailsList) {
+            if (userDetailsList.length > 0) {
+                const profileDetailsContainer = document.getElementById('profile-details');
+                profileDetailsContainer.innerHTML = '<h3 class="text-center">Your Details:</h3>';
+
+                userDetailsList.forEach(userDetails => {
+                    const billing = userDetails.billingDetails;
+                    const orders = userDetails.cart.map(item => `
+                        <div class="order-item">
+                            <img src="${item.image || 'img/default.jpg'}" alt="${item.name}">
+                            <span>${item.name} (Qty: ${item.qty})</span>
+                        </div>
+                    `).join('');
+                    const purchaseDate = new Date(userDetails.orderDate);
+                    const formattedDate = purchaseDate.toLocaleString('en-US', {
+                        weekday: 'long',
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    });
+
+                    const card = document.createElement('div');
+                    card.className = 'card mt-3';
+                    card.innerHTML = `
+                        <div class="card-body">
+                            <h5 class="card-title">${billing['first-name']} ${billing['last-name']}</h5>
+                            <p class="card-text"><strong>Address:</strong> ${billing.address}, ${billing.city}, ${billing.country}, ${billing['zip-code']}</p>
+                            <p class="card-text"><strong>Contact:</strong> ${billing.tel}</p>
+                            <p class="card-text"><strong>Previous Orders:</strong></p>
+                            ${orders}
+                            <p class="card-text"><strong>Purchase Date:</strong> ${formattedDate}</p>
+                        </div>
+                    `;
+                    profileDetailsContainer.appendChild(card);
+                });
+
+                profileDetailsContainer.style.display = 'block';
             } else {
                 alert("No details found for the entered email ID.");
                 document.getElementById('profile-details').style.display = 'none';
             }
+        }
+
+        // Utility function to validate email format
+        function validateEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
         }
     </script>
 </body>
