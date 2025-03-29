@@ -3,22 +3,22 @@
     "billingDetails": {
       "first-name": "Shail",
       "last-name": "Shah",
-      "email": "sshah38@ncsu.edu",
-      "address": "1611 Collegeview ave",
+      "email": "shail@ncsu.edu",
+      "address": "16 Collegeview ave",
       "city": "Raleigh",
       "country": "United States",
       "zip-code": "27606",
-      "tel": "6786879032"
+      "tel": "6786870000"
     },
     "shippingDetails": {
-      "first-name": "Shail",
+      "first-name": "Dummy",
       "last-name": "Shah",
-      "email": "sshah38@ncsu.edu",
-      "address": "1611 Collegeview ave",
-      "city": "Raleigh",
+      "email": "shail@ncsu.edu",
+      "address": "Champions Court",
+      "city": "Austin",
       "country": "United States",
       "zip-code": "27606",
-      "tel": "6786879032"
+      "tel": "6123479032"
     },
     "paymentMethod": "payment-3",
     "orderNotes": null,
@@ -43,22 +43,22 @@
     "billingDetails": {
       "first-name": "Shail",
       "last-name": "Shah",
-      "email": "sshah38@ncsu.edu",
-      "address": "1611 Collegeview ave",
+      "email": "dummy@ncsu.edu",
+      "address": "view ave",
       "city": "Raleigh",
       "country": "United States",
       "zip-code": "27606",
-      "tel": "6786879032"
+      "tel": "6788765432"
     },
     "shippingDetails": {
-      "first-name": "Shail",
+      "first-name": "Dummy",
       "last-name": "Shah",
-      "email": "sshah38@ncsu.edu",
-      "address": "1611 Collegeview ave",
+      "email": "dummy@ncsu.edu",
+      "address": "1 Ave",
       "city": "Raleigh",
       "country": "United States",
       "zip-code": "27606",
-      "tel": "6786879032"
+      "tel": "6786966032"
     },
     "paymentMethod": "payment-3",
     "orderNotes": null,
