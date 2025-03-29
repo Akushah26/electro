@@ -35,12 +35,13 @@
     <!-- Back to Home Button -->
     <a href="index.html" class="back-button">Back to Home</a>
 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             // Simulate user authentication (replace this with actual authentication logic)
             const userEmail = prompt("Enter your email to access the admin panel:");
 
-            if (userEmail === "admin@admin.com") {
+            if (userEmail === "a") {
                 document.getElementById('adminContent').style.display = 'block';
             } else {
                 document.getElementById('accessDenied').style.display = 'block';
@@ -49,15 +50,32 @@
             // Populate phone dropdown dynamically
             const phoneDropdown = document.getElementById('phone');
             const phones = [
-                "iPhone 13",
-                "Samsung Galaxy S21",
-                "Google Pixel 6",
-                "OnePlus 9",
-                "Xiaomi Mi 11",
-                "Sony Xperia 5",
-                "Huawei P40",
-                "Nokia X20"
-            ]; // Example phone names
+                "Realme 14 Pro+",
+                "Realme 14 Pro",
+                "Realme 14x",
+                "Realme GT 7 Pro",
+                "Realme Narzo 70 Turbo",
+                "Samsung S25 Ultra",
+                "Samsung Galaxy S23 FE",
+                "Samsung Galaxy S25",
+                "Samsung Galaxy A35",
+                "Samsung Galaxy M35",
+                "Iphone 16 Pro Max",
+                "Iphone 16 Pro",
+                "Iphone 16",
+                "Iphone Se(2nd generation)",
+                "Iphone 15 Plus",
+                "iQOO Neo 9 pro",
+                "iQOO 13",
+                "iQOO Z9s Pro",
+                "iQOO Z9s 5G",
+                "iQOO Z9 Lite 5G",
+                "Vivo X200 Pro",
+                "Vivo T3 Pro",
+                "Vivo V40 Pro",
+                "Vivo V40",
+                "Vivo Y58"
+            ]; // Updated phone names
 
             if (phones.length === 0) {
                 phoneDropdown.innerHTML = '<option>No phones available</option>';
@@ -69,9 +87,126 @@
                     phoneDropdown.appendChild(option);
                 });
             }
-        });
 
-        // Add your existing search and show all logic here
+            // Add event listener for "Show All" button
+            document.getElementById('showAll').addEventListener('click', async () => {
+                const allResultsDiv = document.getElementById('allResults');
+                allResultsDiv.innerHTML = ''; // Clear previous results
+
+                try {
+                    // Fetch orders data from orders.json
+                    const response = await fetch('orders.json');
+                    const orders = await response.json();
+
+                    // Iterate through each order and display user and phone details
+                    orders.forEach(order => {
+                        const userDetails = `
+                            <div>
+                                <h3>User Details</h3>
+                                <p><strong>Name:</strong> ${order.billingDetails['first-name']} ${order.billingDetails['last-name']}</p>
+                                <p><strong>Email:</strong> ${order.billingDetails.email}</p>
+                                <p><strong>Address:</strong> ${order.billingDetails.address}, ${order.billingDetails.city}, ${order.billingDetails.country}, ${order.billingDetails['zip-code']}</p>
+                                <p><strong>Phone:</strong> ${order.billingDetails.tel}</p>
+                            </div>
+                        `;
+
+                        const phoneDetails = `
+                            <div>
+                                <h3>Purchased Phones</h3>
+                                <ul>
+                                    ${order.cart.map(item => `<li>${item.name} (Qty: ${item.qty}, Price: ${item.price})</li>`).join('')}
+                                </ul>
+                            </div>
+                        `;
+
+                        const orderDiv = document.createElement('div');
+                        orderDiv.innerHTML = userDetails + phoneDetails;
+                        orderDiv.style.border = '1px solid #ccc';
+                        orderDiv.style.margin = '10px 0';
+                        orderDiv.style.padding = '10px';
+
+                        allResultsDiv.appendChild(orderDiv);
+                    });
+                } catch (error) {
+                    allResultsDiv.innerHTML = '<p>Error fetching orders data. Please try again later.</p>';
+                    console.error('Error fetching orders:', error);
+                }
+            });
+
+            // Add event listener for "Search" button
+            document.getElementById('searchPhone').addEventListener('click', async () => {
+                const selectedPhone = document.getElementById('phone').value;
+                const phoneResultsDiv = document.getElementById('phoneResults');
+                phoneResultsDiv.innerHTML = ''; // Clear previous results
+
+                if (!selectedPhone) {
+                    phoneResultsDiv.innerHTML = '<p>Please select a phone to search.</p>';
+                    return;
+                }
+
+                try {
+                    // Fetch orders data from orders.json
+                    const response = await fetch('orders.json');
+                    const orders = await response.json();
+
+                    let totalQuantity = 0;
+                    const salesByDate = {};
+
+                    // Calculate total quantity and group sales by date
+                    orders.forEach(order => {
+                        order.cart.forEach(item => {
+                            if (item.name === selectedPhone) {
+                                totalQuantity += item.qty;
+
+                                const orderDate = new Date(order.orderDate).toLocaleDateString();
+                                salesByDate[orderDate] = (salesByDate[orderDate] || 0) + item.qty;
+                            }
+                        });
+                    });
+
+                    if (totalQuantity === 0) {
+                        phoneResultsDiv.innerHTML = `<p>No sales found for ${selectedPhone}.</p>`;
+                        return;
+                    }
+
+                    // Display total quantity sold
+                    phoneResultsDiv.innerHTML = `<p>Total Quantity Sold for ${selectedPhone}: ${totalQuantity}</p>`;
+
+                    // Prepare data for the bar graph
+                    const labels = Object.keys(salesByDate);
+                    const data = Object.values(salesByDate);
+
+                    // Create a canvas for the chart
+                    const canvas = document.createElement('canvas');
+                    phoneResultsDiv.appendChild(canvas);
+
+                    // Render the bar graph using Chart.js
+                    new Chart(canvas, {
+                        type: 'bar',
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                label: `Sales of ${selectedPhone}`,
+                                data: data,
+                                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                                borderColor: 'rgba(75, 192, 192, 1)',
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                    });
+                } catch (error) {
+                    phoneResultsDiv.innerHTML = '<p>Error fetching orders data. Please try again later.</p>';
+                    console.error('Error fetching orders:', error);
+                }
+            });
+        });
     </script>
 </body>
 </html>

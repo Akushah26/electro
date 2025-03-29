@@ -72,5 +72,57 @@
     ],
     "totalBill": 330000,
     "orderDate": "2025-03-24T20:19:07.281Z"
+  },
+  {
+    "billingDetails": {
+      "first-name": "Akshat",
+      "last-name": "Shah",
+      "email": "akshat@gmail.com",
+      "address": "31 Sayaji soc",
+      "city": "Vadodara",
+      "country": "India",
+      "zip-code": "390018",
+      "tel": "06359649777"
+    },
+    "shippingDetails": {
+      "first-name": "Akshat",
+      "last-name": "Shah",
+      "email": "akshat@gmail.com",
+      "address": "31 Sayaji soc",
+      "city": "Vadodara",
+      "country": "India",
+      "zip-code": "390018",
+      "tel": "06359649777"
+    },
+    "paymentMethod": "payment-3",
+    "orderNotes": null,
+    "cart": [
+      {
+        "name": "Iphone 16 Pro",
+        "qty": 1,
+        "price": 110000,
+        "image": "img/Iphone/IPHONE 16 PRO.jpg"
+      },
+      {
+        "name": "Iphone 16",
+        "qty": 1,
+        "price": 90000,
+        "image": "img/Iphone/IPHONE 16.jpg"
+      },
+      {
+        "name": "Iphone Se(2nd generation)",
+        "qty": 3,
+        "price": 38000,
+        "image": "img/Iphone/IPHONE SE(2 GEN).jpg"
+      },
+      {
+        "name": "Iphone 15 Plus",
+        "qty": 1,
+        "price": 100000,
+        "image": "img/Iphone/IPHONE 15 PLUS.jpg"
+      }
+    ],
+    "totalBill": 414000,
+    "orderDate": "2025-03-29T03:08:20.467Z"
   }
 ]

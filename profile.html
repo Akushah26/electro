@@ -10,12 +10,12 @@
         .back-button {
             display: inline-block;
             margin-top: 20px;
-            padding: 10px 15px;
+            padding: 12px 20px; /* Increase padding */
             background-color: #007bff;
             color: white;
             text-decoration: none;
             border-radius: 4px;
-            font-size: 16px;
+            font-size: 18px; /* Increase font size */
             text-align: center;
         }
 
@@ -45,25 +45,32 @@
         .order-item span {
             margin-left: 10px;
         }
+
+        .btn {
+            padding: 12px 20px; /* Increase padding */
+            font-size: 18px; /* Increase font size */
+        }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 <body>
     <div class="container">
         <h2 class="text-center mt-5">Profile Details</h2>
-        <form id="profile-form" class="mt-4">
+        <form id="profile-form" class="mt-4 text-center">
             <div class="form-group">
                 <label for="email">Enter your Email ID:</label>
                 <input type="email" id="email" class="form-control" placeholder="Enter your email" required>
             </div>
-            <button type="button" class="btn btn-primary" onclick="fetchProfileDetails()">Get Details</button>
+            <button type="button" class="btn btn-primary mt-2" onclick="fetchProfileDetails()">Get Details</button>
         </form>
         <div id="profile-details" class="mt-4" style="display: none;">
             <h3 class="text-center">Your Details:</h3>
         </div>
 
         <!-- Back to Home Button -->
-        <a href="index.html" class="back-button">Back to Home</a>
+        <div class="text-center mt-3">
+            <a href="index.html" class="back-button">Back to Home</a>
+        </div>
     </div>
 
     <script>

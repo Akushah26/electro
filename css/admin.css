@@ -88,3 +88,20 @@ p {
 .back-button:hover {
     background-color: #0056b3;
 }
+
+.back-button {
+    /* display: block; Change to block for centering */
+    margin: 20px auto; /* Center horizontally */
+    padding: 10px 15px;
+    background-color: #007BFF;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 14px;
+    margin-left: 47%;
+}
+
+.back-button:hover {
+    background-color: #0056b3;
+}
