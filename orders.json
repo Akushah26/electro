@@ -124,5 +124,51 @@
     ],
     "totalBill": 414000,
     "orderDate": "2025-03-29T03:08:20.467Z"
+  },
+  {
+    "billingDetails": {
+      "first-name": "akshat",
+      "last-name": "shah",
+      "email": "akshatshah5018@gmail.com",
+      "address": "2378 fraklin roda",
+      "city": "califonia",
+      "country": "usa",
+      "zip-code": "1234567",
+      "tel": "1234567891"
+    },
+    "shippingDetails": {
+      "first-name": "akshat",
+      "last-name": "shah",
+      "email": "akshatshah5018@gmail.com",
+      "address": "2378 fraklin roda",
+      "city": "califonia",
+      "country": "usa",
+      "zip-code": "1234567",
+      "tel": "1234567891"
+    },
+    "paymentMethod": "payment-3",
+    "orderNotes": null,
+    "cart": [
+      {
+        "name": "Iphone 16 Pro Max",
+        "qty": 1,
+        "price": 120000,
+        "image": "img/Iphone/IPHONE 16 PRO MAX.jpg"
+      },
+      {
+        "name": "Iphone 16 Pro",
+        "qty": 1,
+        "price": 110000,
+        "image": "img/Iphone/IPHONE 16 PRO.jpg"
+      },
+      {
+        "name": "Samsung Galaxy S25",
+        "qty": 1,
+        "price": 90000,
+        "image": "img/Samsung/SAMSUNG S25.webp"
+      }
+    ],
+    "totalBill": 320000,
+    "orderDate": "2025-05-09T11:27:51.444Z"
   }
 ]
